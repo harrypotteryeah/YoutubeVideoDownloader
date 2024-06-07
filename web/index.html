@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Video Downloader</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <h1 data-translate="title">Video Downloader</h1>
+        <div class="settings">
+            <button id="settingsBtn" class="settings-btn" title="Open Settings" data-translate-title="tooltipSettings">⚙️</button>
+            <div id="settingsMenu" class="settings-menu">
+                <ul>
+                    <li id="videoQualityOption" data-translate="videoQuality" title="Choose video quality" data-translate-title="tooltipVideoQuality">Video Quality</li>
+                    <li id="outputPathOption" data-translate="outputPath" title="Set output path" data-translate-title="tooltipOutputPath">Output Path</li>
+                    <li id="languageOption" data-translate="languageSettings" title="Change language" data-translate-title="tooltipLanguage">Language Settings</li>
+                </ul>
+                <div id="videoQualityOptions" style="display: none;">
+                    <input type="radio" id="lowQuality" name="videoQuality" value="240p">
+                    <label for="lowQuality">240p</label><br>
+                    <input type="radio" id="mediumQuality" name="videoQuality" value="480p">
+                    <label for="mediumQuality">480p</label><br>
+                    <input type="radio" id="highQuality" name="videoQuality" value="720p">
+                    <label for="highQuality">720p</label><br>
+                    <button id="saveVideoQualityBtn" data-translate="save">Save</button>
+                </div>
+                <div id="outputPathInputContainer" style="display: none;">
+                    <input type="text" id="outputPathInput" placeholder="Enter output path" data-translate-placeholder="outputPathPlaceholder">
+                    <div class="output-path-buttons">
+                        <button id="pickDirectoryBtn" data-translate="pickDirectory" title="Select a directory" data-translate-title="tooltipPickDirectory">Pick Directory</button>
+                        <button id="saveOutputPathBtn" data-translate="save">Save</button>
+                    </div>
+                </div>
+                <div id="languageOptions" style="display: none;">
+                    <select id="languageSelect">
+                        <option value="en">English</option>
+                        <option value="tr">Türkçe</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div class="input-group">
+            <button id="clipboardModeBtn" class="clipboard-mode" title="Automatically paste from clipboard when you copy" data-translate-title="tooltipClipboardMode">📋</button>
+            <input type="url" id="videoUrl" placeholder="Enter video URL" data-translate-placeholder="urlPlaceholder">
+            <button id="addVideoBtn" data-translate="addVideo">Add Video</button>
+            <button id="fileFormatBtn" class="file-format-btn" title="Toggle between MP4 and MP3 format" data-translate-title="tooltipFileFormat">MP4</button>
+        </div>
+        <div class="video-list" id="videoList"></div>
+        <button id="downloadAllBtn" data-translate="downloadAll">Download All</button>
+    </div>
+
+    <script src="script.js"></script>
+
+</body>
+</html>

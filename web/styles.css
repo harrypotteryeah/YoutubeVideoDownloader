@@ -1,0 +1,256 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: #f0f0f0;
+}
+
+.container {
+    width: 95%;
+    max-width: 900px;
+    height: 90vh;
+    padding: 20px;
+    background-color: white;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    border-radius: 12px; /* Increased for better visual appeal */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+}
+
+h1 {
+    color: #333;
+    text-align: center;
+}
+
+.input-group {
+    width: 100%;
+    display: flex;
+    align-items: center; /* Center the items vertically */
+    margin-bottom: 10px;
+}
+
+.input-group button {
+    margin-right: 5px; /* Add margin between buttons */
+}
+
+input[type="url"] {
+    width: 100%;
+    padding: 10px;
+    margin-right: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    flex-grow: 1;
+}
+
+button {
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+button:disabled {
+    background-color: #ccc;
+}
+
+.clipboard-mode {
+    background-color: #ccc; /* Greyed out when not activated */
+    border: none;
+    padding: 10px;
+    border-radius: 50%;
+    font-size: 20px;
+    cursor: pointer;
+    position: relative;
+    margin-right: 10px; /* Added margin to separate from input */
+}
+
+#clipboardModeBtn.active {
+    background-color: #4CAF50; /* Green background when active */
+    color: white;
+}
+
+.clipboard-mode:hover .tooltip {
+    display: block;
+}
+
+.tooltip {
+    display: none;
+    position: absolute;
+    bottom: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: #333;
+    color: #fff;
+    padding: 5px 10px;
+    border-radius: 4px;
+    white-space: nowrap;
+    opacity: 0.75;
+    font-size: 12px;
+}
+
+.video-list {
+    width: 100%;
+    margin-top: 20px;
+    flex-grow: 1;
+    overflow-y: auto;
+    margin-bottom: 60px; /* Space for the fixed button */
+    border: 1px solid #ccc; /* Grey border around the video list */
+    border-radius: 8px; /* Rounded corners for the video list */
+    padding: 10px; /* Padding inside the video list */
+    background-color: #fafafa;
+}
+
+.video-item {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    background-color: #fff;
+}
+
+.video-thumbnail {
+    width: 120px;
+    height: 90px;
+    margin-right: 20px;
+    background-size: cover;
+    background-position: center;
+    border-radius: 4px;
+}
+
+.video-url {
+    flex-grow: 1;
+}
+
+#downloadAllBtn {
+    position: absolute;
+    bottom: 20px;
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.file-format-btn {
+    padding: 10px 20px;
+    background-color: #058372;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.file-format-btn.mp3 {
+    background-color: #02014b; /* Change to dark blue when format is MP3 */
+}
+
+.container {
+    position: relative;
+}
+
+.settings {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+}
+
+.settings-btn {
+    background-color: transparent;
+    border: none;
+    font-size: 20px;
+    cursor: pointer;
+}
+
+.settings-menu {
+    display: none;
+    position: absolute;
+    top: 30px;
+    right: 0;
+    background-color: white;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    padding: 10px;
+    width: 200px; /* Adjust width as needed */
+    z-index: 1;
+}
+
+.settings-menu ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+.settings-menu li {
+    cursor: pointer;
+    padding: 10px 0; /* Increase vertical padding */
+    border-top: 1px solid #ccc; /* Add border lines between options */
+}
+
+.settings-menu li:first-child {
+    border-top: none; /* Remove border line for the first option */
+}
+
+.settings-menu li:hover {
+    background-color: #f0f0f0;
+}
+
+.settings-options {
+    margin-top: 10px;
+}
+
+#outputPathInput {
+    width: 100%;
+    padding: 5px;
+    margin-bottom: 5px;
+}
+
+.output-path-input-container {
+    display: flex;
+    flex-direction: column;
+}
+
+.output-path-buttons {
+    display: flex;
+    margin-top: 5px;
+}
+
+.output-path-buttons button {
+    margin-right: 5px;
+    padding: 5px 10px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+#saveOutputPathBtn {
+    padding: 5px 10px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+#languageSelect {
+    width: 100%;
+    padding: 10px;
+    font-size: 16px;
+    margin: 10px 0;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+}
+
+
