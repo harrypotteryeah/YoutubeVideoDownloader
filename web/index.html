@@ -43,15 +43,16 @@
         </div>
         <div class="input-group">
             <button id="clipboardModeBtn" class="clipboard-mode" title="Automatically paste from clipboard when you copy" data-translate-title="tooltipClipboardMode">📋</button>
-            <input type="url" id="videoUrl" placeholder="Enter video URL" data-translate-placeholder="urlPlaceholder">
+            <input type="url" id="videoUrl" placeholder="Enter video or playlist URL" data-translate-placeholder="urlPlaceholder">
             <button id="addVideoBtn" data-translate="addVideo">Add Video</button>
             <button id="fileFormatBtn" class="file-format-btn" title="Toggle between MP4 and MP3 format" data-translate-title="tooltipFileFormat">MP4</button>
         </div>
         <div class="video-list" id="videoList"></div>
-        <button id="downloadAllBtn" data-translate="downloadAll">Download All</button>
+        <div class="action-buttons">
+            <button id="downloadAllBtn" data-translate="downloadAll">Download All</button>
+        </div>
     </div>
 
     <script src="script.js"></script>
-
 </body>
 </html>

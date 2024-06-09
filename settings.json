@@ -1,5 +1,7 @@
 {
     "window_size":"1920x1080",
     "window_height":1080,
-    "window_width":1920
+    "window_width":1920,
+    "output_path":"",
+    "default_language":"en"
 }

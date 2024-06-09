@@ -54,13 +54,9 @@ def download_videos_in_parallel(videos_list:list, OUTPUT_PATH:str, use_thread:bo
              results.append(future.result())
     
     return results
-             
 
 def download_videos_synchronous(videos_list,OUTPUT_PATH):
     files=[]
     for video in videos_list:
         files.append(download_video(video,OUTPUT_PATH))
     return files
-
-		
-			

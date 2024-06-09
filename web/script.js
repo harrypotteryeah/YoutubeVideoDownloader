@@ -43,6 +43,7 @@ document.addEventListener('DOMContentLoaded', function() {
             alertSelectedVideoQuality: "Selected Video Quality:",
             alertOutputPath: "Output Path:",
             alertOpeningFileExplorer: "Opening file explorer to pick output path...",
+            alertConfirmDelete: "Are you sure you want to delete this video?",
             tooltipSettings: "Open Settings",
             tooltipVideoQuality: "Choose video quality",
             tooltipOutputPath: "Set output path",
@@ -54,30 +55,31 @@ document.addEventListener('DOMContentLoaded', function() {
         tr: {
             title: "Video İndirici",
             videoQuality: "Video Kalitesi",
-            outputPath: "Çıkış Yolu",
+            outputPath: "İndirilecek klasör",
             languageSettings: "Dil Ayarları",
             addVideo: "Video Ekle",
             downloadAll: "Hepsini İndir",
             save: "Kaydet",
-            pickDirectory: "Dizin Seç",
-            urlPlaceholder: "Video URL'sini girin",
-            outputPathPlaceholder: "Çıkış yolunu girin",
+            pickDirectory: "İndirilecek klasörü seçin",
+            urlPlaceholder: "Video veya playlist URL'sini girin",
+            outputPathPlaceholder: "İndirilecek klasör adresini girin",
             download: "İndir",
             alertEnterValidUrl: "Lütfen geçerli bir URL girin",
-            alertFailedFetchThumbnail: "Video küçük resmi alınamadı",
+            alertFailedFetchThumbnail: "Video kapak resmi alınamadı",
             alertDownloadingVideo: "Video indiriliyor:",
             alertClipboardModeActivated: "Panoya kopyalama modu etkinleştirildi",
             alertClipboardModeDeactivated: "Panoya kopyalama modu devre dışı bırakıldı",
             alertSelectedVideoQuality: "Seçilen Video Kalitesi:",
             alertOutputPath: "Çıkış Yolu:",
             alertOpeningFileExplorer: "Çıkış yolunu seçmek için dosya gezgini açılıyor...",
+            alertConfirmDelete: "Bu videoyu silmek istediğinize emin misiniz?",
             tooltipSettings: "Ayarları Aç",
             tooltipVideoQuality: "Video kalitesini seçin",
-            tooltipOutputPath: "Çıkış yolunu ayarlayın",
+            tooltipOutputPath: "Dosyaların bilgisyarınızdaki hangi klasöre indirileceğini ayarlayın",
             tooltipLanguage: "Dili değiştir",
             tooltipClipboardMode: "Kopyaladığınızda otomatik olarak panodan yapıştırın",
             tooltipFileFormat: "MP4 ve MP3 formatları arasında geçiş yapın",
-            tooltipPickDirectory: "Bir dizin seçin"
+            tooltipPickDirectory: "Bir klasör seçmek için dosya gezginini aç"
         }
     };
 
@@ -129,17 +131,32 @@ document.addEventListener('DOMContentLoaded', function() {
             const thumbnail = document.createElement('img');
             thumbnail.src = thumbnailUrl;
 
+            const videoInfo = document.createElement('div');
+            videoInfo.classList.add('video-info');
+
             const urlText = document.createElement('span');
             urlText.textContent = url;
             urlText.classList.add('video-url');
 
-            const downloadBtn = document.createElement('button');
-            downloadBtn.textContent = translations[languageSelect.value].download;
-            downloadBtn.addEventListener('click', () => downloadVideo(url));
+            const actionsContainer = document.createElement('div');
+            actionsContainer.classList.add('video-actions');
 
+            const renameBtn = document.createElement('button');
+            renameBtn.innerHTML = '✏️';
+            renameBtn.addEventListener('click', () => renameVideo(urlText));
+
+            const deleteBtn = document.createElement('button');
+            deleteBtn.innerHTML = '🗑️';
+            deleteBtn.addEventListener('click', () => deleteVideo(videoItem));
+
+
+            actionsContainer.appendChild(renameBtn);
+            actionsContainer.appendChild(deleteBtn);
+
+            videoInfo.appendChild(urlText);
+            videoInfo.appendChild(actionsContainer);
             videoItem.appendChild(thumbnail);
-            videoItem.appendChild(urlText);
-            videoItem.appendChild(downloadBtn);
+            videoItem.appendChild(videoInfo);
             videoList.appendChild(videoItem);
 
             videoUrlInput.value = '';
@@ -151,79 +168,103 @@ document.addEventListener('DOMContentLoaded', function() {
 
     function fetchThumbnail(url) {
         // This function should return a promise that resolves with the thumbnail URL
-        // For demonstration purposes, we will use a placeholder image
-        return new Promise((resolve) => {
-            const placeholderThumbnail = 'https://via.placeholder.com/120x90.png?text=Thumbnail';
-            resolve(placeholderThumbnail);
-        });
+        // For demonstration purposes, we'll use a placeholder image
+        return Promise.resolve('https://via.placeholder.com/120x90');
     }
 
-    function downloadVideo(url) {
-        alert(translations[languageSelect.value].alertDownloadingVideo + ' ' + url);
+    function renameVideo(urlText) {
+        const originalText = urlText.textContent;
+        const input = document.createElement('input');
+        input.type = 'text';
+        input.value = originalText;
+        input.classList.add('rename-input');
+
+        input.addEventListener('blur', () => {
+            urlText.textContent = input.value;
+            urlText.style.display = 'inline';
+            input.remove();
+        });
+
+        input.addEventListener('keydown', (event) => {
+            if (event.key === 'Enter') {
+                input.blur();
+            }
+            if (event.key === 'Escape') {
+                urlText.textContent = originalText;
+                urlText.style.display = 'inline';
+                input.remove();
+            }
+        });
+
+        urlText.style.display = 'none';
+        urlText.parentNode.insertBefore(input, urlText.nextSibling);
+        input.focus();
+        input.select();
+    }
+
+    function deleteVideo(videoItem) {
+        const confirmation = confirm(translations[languageSelect.value].alertConfirmDelete);
+        if (confirmation) {
+            videoItem.remove();
+        }
     }
 
     function downloadAllVideos() {
-        const videos = document.querySelectorAll('.video-item');
-        videos.forEach(videoItem => {
-            const url = videoItem.querySelector('.video-url').textContent;
-            downloadVideo(url);
+        const videos = videoList.querySelectorAll('.video-item');
+        videos.forEach(video => {
+            const url = video.querySelector('.video-url').textContent;
+            console.log(translations[languageSelect.value].alertDownloadingVideo, url);
+            // Add your download logic here
         });
     }
 
     function toggleClipboardMode() {
         clipboardModeActivated = !clipboardModeActivated;
-        clipboardModeBtn.classList.toggle('active', clipboardModeActivated);
-        alert(clipboardModeActivated ? translations[languageSelect.value].alertClipboardModeActivated : translations[languageSelect.value].alertClipboardModeDeactivated);
+        const message = clipboardModeActivated ?
+            translations[languageSelect.value].alertClipboardModeActivated :
+            translations[languageSelect.value].alertClipboardModeDeactivated;
+        alert(message);
     }
 
     function toggleFileFormat() {
-        if (fileFormat === 'mp4') {
-            fileFormat = 'mp3';
-            fileFormatBtn.textContent = 'MP3';
-            fileFormatBtn.classList.add('mp3');
-        } else {
-            fileFormat = 'mp4';
-            fileFormatBtn.textContent = 'MP4';
-            fileFormatBtn.classList.remove('mp3');
-        }
+        fileFormat = fileFormat === 'mp4' ? 'mp3' : 'mp4';
+        fileFormatBtn.textContent = fileFormat.toUpperCase();
     }
 
     function toggleSettingsMenu() {
-        if (settingsMenu.style.display === 'block') {
-            settingsMenu.style.display = 'none';
-            if (currentOpenOptions) currentOpenOptions.style.display = 'none';
-            currentOpenOptions = null;
-        } else {
-            settingsMenu.style.display = 'block';
-        }
+        settingsMenu.style.display = settingsMenu.style.display === 'none' ? 'block' : 'none';
     }
 
-    function toggleOptions(optionsElement) {
-        if (currentOpenOptions && currentOpenOptions !== optionsElement) {
+    function toggleOptions(optionContainer) {
+        if (currentOpenOptions && currentOpenOptions !== optionContainer) {
             currentOpenOptions.style.display = 'none';
         }
-        optionsElement.style.display = (optionsElement.style.display === 'block') ? 'none' : 'block';
-        currentOpenOptions = optionsElement.style.display === 'block' ? optionsElement : null;
+        optionContainer.style.display = optionContainer.style.display === 'none' ? 'block' : 'none';
+        currentOpenOptions = optionContainer;
     }
 
     function saveVideoQuality() {
-        const selectedQuality = document.querySelector('input[name="videoQuality"]:checked').value;
-        alert(translations[languageSelect.value].alertSelectedVideoQuality + ' ' + selectedQuality);
-        videoQualityOptions.style.display = 'none';
-        currentOpenOptions = null;
+        const selectedQuality = document.querySelector('input[name="videoQuality"]:checked');
+        if (selectedQuality) {
+            alert(translations[languageSelect.value].alertSelectedVideoQuality + ' ' + selectedQuality.value);
+        }
+    }
+
+    function pickOutputPathFileExplorer() {
+        alert(translations[languageSelect.value].alertOpeningFileExplorer);
+        // Add logic to open file explorer and pick a directory
     }
 
     function saveOutputPath() {
         const outputPath = document.getElementById('outputPathInput').value;
         alert(translations[languageSelect.value].alertOutputPath + ' ' + outputPath);
-        outputPathInputContainer.style.display = 'none';
-        currentOpenOptions = null;
     }
+    
 
-    function pickOutputPathFileExplorer() {
-        alert(translations[languageSelect.value].alertOpeningFileExplorer);
+    if (navigator.language.startsWith('tr')) {
+        languageSelect.value = 'tr';
+    } else {
+        languageSelect.value = 'en';
     }
-
-    // Initialize with default language (English)
-    translatePage('en');
+    translatePage(languageSelect.value);
 });
