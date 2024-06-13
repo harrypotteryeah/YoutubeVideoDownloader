@@ -180,6 +180,10 @@ button:disabled {
     display: none;
 }
 
+.hide-actions .rename-btn, .hide-actions .delete-btn {
+    display: none;
+}
+
 #downloadAllBtn {
     position: absolute;
     bottom: 20px;
