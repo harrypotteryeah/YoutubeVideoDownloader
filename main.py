@@ -2,10 +2,12 @@ import json
 import tkinter.filedialog
 import tkinter as tk
 import download
+import os
+import pyperclip
 import gevent.monkey
 gevent.monkey.patch_all()
 import eel
-import os
+
 
 with open(r"settings.json","r+") as f:
     settings_dict=json.loads(f.read())
@@ -30,7 +32,6 @@ def getOutputPath():
     window.wm_attributes('-topmost', 1)
     window.withdraw()
     return tkinter.filedialog.askdirectory()
-
 
 videosDict={}
 
@@ -64,7 +65,28 @@ def deleteVideo(name:str):
 @eel.expose
 def downloadAllVideos(fileFormat:str, videoQuality:str):
     download.download_videos_synchronous(videosDict, settings_dict["output_path"], videoQuality, fileFormat=="mp4",download_started_callback=eel.videoStartedDownloading,download_finished_callback=eel.videoFinishedDownloading, downloading_error_callback=eel.videoFailedDownloading)
-    
+
+
+clipboardModeActivated = True
+@eel.expose
+def enableClipboardMode():
+    while True:
+        global clipboardModeActivated
+        if not clipboardModeActivated:
+            break
+        try:
+            pyperclip.waitForNewPaste(timeout=1)
+            copied_text=pyperclip.paste()
+            getVideoOrPlaylist(copied_text)
+            
+        except pyperclip.PyperclipTimeoutException:
+            pass
+
+@eel.expose
+def disableClipboardMode():
+    global clipboardModeActivated
+    clipboardModeActivated = False
+
 
 eel.init(r"web")
 eel.start("index.html",mode="chrome",size=(settings_dict["window_width"],settings_dict["window_height"]))

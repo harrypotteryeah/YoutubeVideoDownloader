@@ -251,9 +251,11 @@ document.addEventListener('DOMContentLoaded', async function() {
     function toggleClipboardMode() {
         clipboardModeActivated = !clipboardModeActivated;
         if (clipboardModeActivated){
+            eel.enableClipboardMode();
             clipboardModeBtn.classList.add('active');
         }
         else {
+            eel.disableClipboardMode();
             clipboardModeBtn.classList.remove('active');
         }
         const message = clipboardModeActivated ?
